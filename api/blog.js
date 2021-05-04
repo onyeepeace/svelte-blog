@@ -14,33 +14,14 @@ app.listen(4000, (err) => {
 	console.log('server listening on port 4000');
 });
 
-const allPosts = [
-	{
-		id: 1,
-		title: 'Sample Title 1',
-		src: 'images/img-9.jpg',
-		slug: 'sample',
-		body: 'Search for the keywords to learn more about each error.'
-	},
-	{
-		id: 2,
-		title: 'Another Title 1',
-		src: 'images/img-2.jpg',
-		slug: 'another',
-		body: 'hahahahahaha...Search for the keywords to learn more about each error.'
-	}
-];
-const posts = allPosts.map((post) => blog.put(post));
-// blog.put(po);
 // getting all notes
 app.get('/', async (req, res) => {
 	const post = await blog.fetch([]).next();
-	res.send(post);
-	// if (post) {
-	// 	res.json(post);
-	// } else {
-	// 	res.status(404).json({ message: 'no posts found' });
-	// }
+	if (post) {
+		res.json(post);
+	} else {
+		res.status(404).json({ message: 'no posts found' });
+	}
 });
 
 // export 'app

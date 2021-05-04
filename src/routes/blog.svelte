@@ -1,33 +1,30 @@
-<script>
-	import { onMount } from 'svelte';
-	import Post from './blog.svelte';
+<script context="module">
+	import SvelteMarkdown from 'svelte-markdown';
 
-	let blogPosts;
-
-	onMount(async () => {
-		// await fetch('https://u3syoe.deta.dev/notes')
-		await fetch('http://localhost:4000')
-			.then((res) => res.json())
-			.then((data) => {
-				console.log({ data });
-				blogPosts = data.value;
-				console.log({ blogPosts });
-			});
-	});
+	export const load = async ({ fetch }) => {
+		const res = await fetch('/blog.json');
+		if (res.ok) {
+			const posts = await res.json();
+			console.log({ posts });
+			return {
+				props: { posts }
+			};
+		}
+	};
 </script>
 
-<!-- <script>
-	export let post;
-	console.log({ post });
-</script> -->
+<script>
+	export let posts;
+	console.log({ posts });
+</script>
 
 <section>
-	{#if blogPosts}
-		{#each blogPosts as blogPost}
+	{#if posts}
+		{#each posts as post}
 			<ul>
 				<li>
-					<h1>{blogPost.title}</h1>
-					<p>{blogPost.body}</p>
+					<h1>{post.title}</h1>
+					<SvelteMarkdown source={post.body} />
 				</li>
 			</ul>
 		{/each}
