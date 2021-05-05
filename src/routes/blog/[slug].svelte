@@ -1,15 +1,14 @@
 <script context="module">
-	import { base } from '$app/paths';
 	import SvelteMarkdown from 'svelte-markdown';
-
 	export const load = async ({ page, fetch }) => {
 		const { slug } = page.params;
-		const res = await fetch(`${base}/${slug}.json`);
+		const res = await fetch(`/blog/${slug}.json`);
 		if (res.ok) {
 			const post = await res.json();
-			console.log({ post });
 			return {
-				props: { post }
+				props: {
+					post: post[0]
+				}
 			};
 		}
 	};
@@ -17,12 +16,13 @@
 
 <script>
 	export let post;
-	console.log({ post });
 </script>
 
 <section>
 	{#if post}
 		<h1>{post.title}</h1>
+		<p>{post.author}</p>
+		<p>{post.tag}</p>
 		<SvelteMarkdown source={post.body} />
 	{:else}
 		<p>loading...</p>
