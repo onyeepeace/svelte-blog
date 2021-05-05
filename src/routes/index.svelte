@@ -1,53 +1,52 @@
 <script context="module">
-	export const prerender = true;
+	import { base } from '$app/paths';
+
+	export const load = async ({ fetch }) => {
+		const res = await fetch(`/index.json`);
+		if (res.ok) {
+			const posts = await res.json();
+			return {
+				props: { posts }
+			};
+		}
+	};
 </script>
 
-<svelte:head>
-	<title>Home</title>
-</svelte:head>
+<script>
+	export let posts;
+</script>
 
 <section>
-	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
-		</div>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
+	{#if posts}
+		{#each posts as post}
+			<div>
+				<a href={`${base}/blog/${post.slug}`}>
+					<p>{post.author}</p>
+					<h1>{post.title}</h1>
+					<p class="tag">{post.tag.map((tags) => tags)}</p>
+				</a>
+			</div>
+		{/each}
+	{:else}
+		<p>loading...</p>
+	{/if}
 </section>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
+	div {
+		margin: 2rem 0;
 	}
-
 	h1 {
-		width: 100%;
+		font-weight: 400;
+		font-size: 22px;
+	}
+	p {
+		color: black;
+		font-size: 14px;
 	}
 
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
+	.tag {
+		font-size: 12px;
+		color: gray;
 	}
 </style>

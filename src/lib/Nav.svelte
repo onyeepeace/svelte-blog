@@ -1,7 +1,21 @@
-<div>
-    <nav>
-      <a href="/"><h3 class="home">HOME</h3></a>
-      <a href="/about"><h3 class="about">about</h3></a>
-    </nav>
-    <h1>this is the nav</h1>
-  </div>
+<div class="body">
+	<nav>
+		<a href="/"><h1 class="home">Home</h1></a>
+		<a href="/about"><h1 class="about">About</h1></a>
+	</nav>
+</div>
+
+<style>
+	.body {
+		width: 60%;
+		margin: 3rem auto;
+	}
+	nav {
+		display: flex;
+		justify-content: space-between;
+		font-family: cursive;
+	}
+	nav h1 {
+		font-size: 28px;
+	}
+</style>

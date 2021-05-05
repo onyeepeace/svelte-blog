@@ -1,26 +1,67 @@
 require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
-const app = express(); // instantiate express
 const { Deta } = require('deta');
-const deta = Deta(); // configure your Deta project
-const blog = deta.Base('svelte_blog'); // access your DB
+
+const app = express();
+const deta = Deta();
+
+const blog = deta.Base('svelte_blog');
 
 app.use(cors());
-app.use(express.json()); // for parsing application/json bodies
+app.use(express.json());
 
 app.listen(4000, (err) => {
 	if (err) console.log(err);
 	console.log('server listening on port 4000');
 });
 
-// getting all notes
+const allPosts = [
+	{
+		title: 'How to Code',
+		author: 'Peace',
+		tag: ['dev', 'design'],
+		slug: '',
+		body: ''
+	},
+	{
+		title: 'How to Python',
+		author: 'Mustafa',
+		tag: ['dev', 'devOps'],
+		slug: '',
+		body: ''
+	},
+	{
+		title: 'How to Infra',
+		author: 'Aavash',
+		tag: ['dev', 'infra'],
+		slug: '',
+		body: ''
+	}
+];
+// allPosts.map((blogs) => {
+// 	blog.put(blogs);
+// });
+
+// getting all posts
 app.get('/', async (req, res) => {
 	const post = await blog.fetch([]).next();
 	if (post) {
 		res.json(post);
 	} else {
 		res.status(404).json({ message: 'no posts found' });
+	}
+});
+
+// getting a single post
+app.get('/blog/:slug', async (req, res) => {
+	const { slug } = req.params;
+	const post = await blog.fetch({ slug: slug }).next();
+	console.log({ post });
+	if (post) {
+		res.json(post);
+	} else {
+		res.status(404).json({ message: 'post not found' });
 	}
 });
 
