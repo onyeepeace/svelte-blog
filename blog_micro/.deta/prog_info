@@ -1,0 +1,1 @@
+{"id":"8057e5e8-94a5-414a-bf9b-1195dcee5b83","space":3414,"runtime":"nodejs12.x","name":"blog_micro","path":"zzm4wi","project":"a0fbl8ih","account":"144798365827","region":"eu-central-1","deps":["cors@^2.8.5","deta@^0.0.8","dotenv@^8.5.1","express@^4.17.1","nodemon@^2.0.7"],"envs":null,"public":true,"log_level":"debug","cron":"","reload_deps":false}

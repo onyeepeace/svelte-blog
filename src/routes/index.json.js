@@ -1,6 +1,6 @@
 export async function get() {
 	let blogPosts;
-	await fetch('http://localhost:4000')
+	await fetch('https://zzm4wi.deta.dev')
 		.then((res) => res.json())
 		.then((data) => {
 			blogPosts = data.value;

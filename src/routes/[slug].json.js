@@ -3,7 +3,7 @@ export async function get({ params }) {
 	let blogPosts;
 	let postSlug;
 
-	await fetch(`http://localhost:4000`)
+	await fetch(`https://zzm4wi.deta.dev`)
 		.then((res) => res.json())
 		.then((data) => {
 			console.log({ data });
@@ -15,7 +15,7 @@ export async function get({ params }) {
 			});
 		});
 
-	await fetch(`http://localhost:4000/blog/${slug}`)
+	await fetch(`https://zzm4wi.deta.dev/blog/${slug}`)
 		.then((res) => res.json())
 		.then((data) => {
 			console.log({ data });
