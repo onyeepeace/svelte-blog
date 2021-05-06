@@ -1,5 +1,6 @@
 <script context="module">
 	import SvelteMarkdown from 'svelte-markdown';
+	import snarkdown from 'snarkdown';
 	export const load = async ({ page, fetch }) => {
 		const { slug } = page.params;
 		const res = await fetch(`/blog/${slug}.json`);
@@ -22,13 +23,16 @@
 <section>
 	{#if post}
 		<h1>{post.title}</h1>
-		<p>{post.author}</p>
+		<p class="author">{post.author}</p>
 		{#each tags as postTag}
 			<a href={`/tag/${postTag}`}>
 				<p class="tag">{postTag}</p>
 			</a>
 		{/each}
-		<SvelteMarkdown source={post.body} />
+		<div class="body">
+			<!-- {@html snarkdown(post.body)} -->
+			<SvelteMarkdown source={post.body} />
+		</div>
 	{:else}
 		<p>loading...</p>
 	{/if}
@@ -38,8 +42,19 @@
 	section {
 		font-family: 'Courier New', Courier, monospace;
 	}
+	.author {
+		text-transform: capitalize;
+		margin: .5rem 0;
+	}
 	.tag {
-		border: 1px solid red;
+		display: inline-block;
+		background-color: cornflowerblue;
+		color: white;
+		padding: 1px 5px;
+		margin: 0 .2rem;
 		border-radius: 4px;
+	}
+	.body {
+		margin: 1rem 0;
 	}
 </style>
