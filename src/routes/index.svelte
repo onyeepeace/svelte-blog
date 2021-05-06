@@ -1,5 +1,4 @@
 <script context="module">
-	import { base } from '$app/paths';
 
 	export const load = async ({ fetch }) => {
 		const res = await fetch(`/index.json`);
@@ -20,10 +19,12 @@
 	{#if posts}
 		{#each posts as post}
 			<div>
-				<a href={`${base}/blog/${post.slug}`}>
-					<p>{post.author}</p>
+				<a href={`/blog/${post.slug}`}>
+					<p>{post.date}</p>
+					<a href={`/author/${post.author}`}>
+						<p class="author">{post.author}</p>
+					</a>
 					<h1>{post.title}</h1>
-					<p class="tag">{post.tag.map((tags) => tags)}</p>
 				</a>
 			</div>
 		{/each}
@@ -44,9 +45,10 @@
 		color: black;
 		font-size: 14px;
 	}
-
-	.tag {
-		font-size: 12px;
-		color: gray;
+	.author {
+		text-transform: capitalize;
+	}
+	.author:hover {
+		text-decoration: underline;
 	}
 </style>

@@ -16,13 +16,18 @@
 
 <script>
 	export let post;
+	let tags = post.tag;
 </script>
 
 <section>
 	{#if post}
 		<h1>{post.title}</h1>
 		<p>{post.author}</p>
-		<p>{post.tag}</p>
+		{#each tags as postTag}
+			<a href={`/tag/${postTag}`}>
+				<p class="tag">{postTag}</p>
+			</a>
+		{/each}
 		<SvelteMarkdown source={post.body} />
 	{:else}
 		<p>loading...</p>
@@ -32,5 +37,9 @@
 <style>
 	section {
 		font-family: 'Courier New', Courier, monospace;
+	}
+	.tag {
+		border: 1px solid red;
+		border-radius: 4px;
 	}
 </style>

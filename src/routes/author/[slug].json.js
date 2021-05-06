@@ -1,13 +1,13 @@
 export async function get({ params }) {
 	const { slug } = params;
-	let blogPost;
-
-	await fetch(`https://zzm4wi.deta.dev/blog/${slug}`)
+	let author;
+	
+	await fetch(`https://zzm4wi.deta.dev/author/${slug}`)
 		.then((res) => res.json())
 		.then((data) => {
-			blogPost = data.value;
+			author = data.value;
 		});
-	let body = JSON.stringify(blogPost);
+	let body = JSON.stringify(author);
 	return {
 		body
 	};

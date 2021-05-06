@@ -16,38 +16,11 @@ app.listen(4000, (err) => {
 	console.log('server listening on port 4000');
 });
 
-const allPosts = [
-	{
-		title: 'How to Code',
-		author: 'Peace',
-		tag: ['dev', 'design'],
-		slug: '',
-		body: ''
-	},
-	{
-		title: 'How to Python',
-		author: 'Mustafa',
-		tag: ['dev', 'devOps'],
-		slug: '',
-		body: ''
-	},
-	{
-		title: 'How to Infra',
-		author: 'Aavash',
-		tag: ['dev', 'infra'],
-		slug: '',
-		body: ''
-	}
-];
-// allPosts.map((blogs) => {
-// 	blog.put(blogs);
-// });
-
 // getting all posts
 app.get('/', async (req, res) => {
-	const post = await blog.fetch([]).next();
-	if (post) {
-		res.json(post);
+	const posts = await blog.fetch([]).next();
+	if (posts) {
+		res.json(posts);
 	} else {
 		res.status(404).json({ message: 'no posts found' });
 	}
@@ -57,11 +30,32 @@ app.get('/', async (req, res) => {
 app.get('/blog/:slug', async (req, res) => {
 	const { slug } = req.params;
 	const post = await blog.fetch({ slug: slug }).next();
-	console.log({ post });
 	if (post) {
 		res.json(post);
 	} else {
 		res.status(404).json({ message: 'post not found' });
+	}
+});
+
+// getting a tag
+app.get('/tag/:tag', async (req, res) => {
+	const { tag } = req.params;
+	const { value: items } = await blog.fetch({ "tag?contains": tag }).next();
+	if (items) {
+		res.json(items);
+	} else {
+		res.status(404).json({ message: 'tag not found' });
+	}
+});
+
+// getting an author
+app.get('/author/:author', async (req, res) => {
+	const { author } = req.params;
+	const postAuthor = await blog.fetch({ "author": author }).next();
+	if (postAuthor) {
+		res.json(postAuthor);
+	} else {
+		res.status(404).json({ message: 'author not found' });
 	}
 });
 
